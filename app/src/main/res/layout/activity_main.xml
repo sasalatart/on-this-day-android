@@ -1,17 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:padding="@dimen/activity_vertical_margin"
     tools:context="com.salatart.onthisday.MainActivity">
 
     <TextView
-        android:text="Hello World!"
+        android:id="@+id/mainTitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="24dp"
+        android:text="@string/main_title"
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="48sp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:id="@+id/pickerContainer"
+        android:layout_width="280dp"
+        android:layout_height="240dp"
+        android:layout_below="@id/mainTitle"
+        android:layout_centerHorizontal="true">
+
+        <NumberPicker
+            android:id="@+id/dayPicker"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:orientation="vertical" />
+
+        <TextView
+            android:id="@+id/dayPickerLabel"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/dayPicker"
+            android:layout_alignParentStart="true"
+            android:text="@string/day_picker_label"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
+        <NumberPicker
+            android:id="@+id/monthPicker"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:orientation="vertical" />
+
+        <TextView
+            android:id="@+id/monthPickerLabel"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/monthPicker"
+            android:layout_alignParentEnd="true"
+            android:text="@string/month_picker_label"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/searchForLabel"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="32dp"
+        android:layout_below="@id/pickerContainer"
+        android:layout_marginTop="24dp"
+        android:text="@string/search_for"
+        android:textSize="24sp" />
+
+    <Spinner
+        android:id="@+id/searchForSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_below="@id/pickerContainer"
+        android:layout_marginTop="24dp"
+        android:layout_toEndOf="@id/searchForLabel" />
+
+    <Button
+        android:id="@+id/searchButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/search_button"
+        android:textSize="24sp" />
 </RelativeLayout>
