@@ -7,8 +7,8 @@
     <string name="search_button">Search</string>
 
     <string-array name="episodes_array">
-        <item>Events</item>
-        <item>Births</item>
-        <item>Deaths</item>
+        <item>event</item>
+        <item>birth</item>
+        <item>death</item>
     </string-array>
 </resources>

@@ -85,5 +85,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="@string/search_button"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:onClick="searchEpisodes" />
 </RelativeLayout>

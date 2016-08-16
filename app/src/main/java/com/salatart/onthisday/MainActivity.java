@@ -1,12 +1,18 @@
 package com.salatart.onthisday;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
-import android.widget.ArrayAdapter;
+
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
+
+    public final static String SEARCH_MESSAGE = "com.example.salatart.SEARCH_MESSAGE";
 
     private NumberPicker dayPicker;
     private NumberPicker monthPicker;
@@ -19,6 +25,24 @@ public class MainActivity extends AppCompatActivity {
 
         setPickers();
         setSearchForSpinner();
+    }
+
+    public void searchEpisodes(View view) {
+        String day = Integer.toString(dayPicker.getValue());
+        String month = Integer.toString(monthPicker.getValue());
+        String type = searchForSpinner.getSelectedItem().toString();
+
+        String url = "";
+        try {
+            url = Util.getProperty("url", getApplicationContext());
+            url += "/episodes?day=" + day + "&month=" + month + "&type=" + type;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Intent intent = new Intent(this, EpisodesActivity.class);
+        intent.putExtra(SEARCH_MESSAGE, url);
+        startActivity(intent);
     }
 
     private void setPickers() {
