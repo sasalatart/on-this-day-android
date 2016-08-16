@@ -1,24 +1,29 @@
 package com.salatart.onthisday;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ProgressBar;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class EpisodesActivity extends AppCompatActivity {
 
     private String query;
-    private ProgressBar progressBar;
+    private String day;
+    private String month;
+    private String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +33,9 @@ public class EpisodesActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-
-        Intent intent = getIntent();
-        query = intent.getStringExtra(MainActivity.SEARCH_MESSAGE);
-
-        new RetrieveEpisodes().execute();
+        extractFromIntent();
+        buildQuery();
+        retrieveEpisodes();
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -42,45 +44,50 @@ public class EpisodesActivity extends AppCompatActivity {
         return true;
     }
 
-    class RetrieveEpisodes extends AsyncTask<Void, Void, String> {
+    public void extractFromIntent() {
+        Intent intent = getIntent();
+        day = intent.getStringExtra(MainActivity.DAY_MESSAGE);
+        month = intent.getStringExtra(MainActivity.MONTH_MESSAGE);
+        type = intent.getStringExtra(MainActivity.TYPE_MESSAGE);
+    }
 
-        protected void onPreExecute() {
-            progressBar.setVisibility(View.VISIBLE);
+    public void buildQuery() {
+
+        try {
+            query = Util.getProperty("url", getApplicationContext()) + "/episodes";
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        protected String doInBackground(Void... urls) {
-            try {
-                URL url = new URL(query);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(query).newBuilder();
+        urlBuilder.addQueryParameter("day", day);
+        urlBuilder.addQueryParameter("month", month);
+        urlBuilder.addQueryParameter("type", type);
+        query = urlBuilder.build().toString();
+    }
 
+    public void retrieveEpisodes() {
+        Request request = new Request.Builder().url(query).build();
+
+        MainActivity.okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
                 try {
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                    StringBuilder stringBuilder = new StringBuilder();
-                    String line;
+                    JSONArray jsonResponse = new JSONArray(response.body().string());
 
-                    while ((line = bufferedReader.readLine()) != null) {
-                        stringBuilder.append(line).append("\n");
+                    for (int i = 0; i < jsonResponse.length(); i++) {
+                        Log.i("INFO", jsonResponse.getJSONObject(i).toString());
                     }
 
-                    bufferedReader.close();
-                    return stringBuilder.toString();
-                } finally {
-                    urlConnection.disconnect();
+                } catch (JSONException e) {
+                    Log.e("ERROR", e.getMessage(), e);
                 }
-            } catch (Exception e) {
-                Log.e("ERROR", e.getMessage(), e);
-                return null;
-            }
-        }
-
-        protected void onPostExecute(String response) {
-
-            if (response == null) {
-                response = "THERE WAS AN ERROR";
             }
 
-            progressBar.setVisibility(View.GONE);
-            Log.i("INFO", response);
-        }
+            @Override
+            public void onFailure(Call call, IOException exception) {
+                Log.e("ERROR", "Failed to connect to API");
+            }
+        });
     }
 }

@@ -65,26 +65,25 @@
     <TextView
         android:id="@+id/searchForLabel"
         android:layout_width="wrap_content"
-        android:layout_height="32dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/pickerContainer"
-        android:layout_marginTop="24dp"
+        android:layout_centerHorizontal="true"
         android:text="@string/search_for"
         android:textSize="24sp" />
 
     <Spinner
         android:id="@+id/searchForSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:layout_below="@id/pickerContainer"
-        android:layout_marginTop="24dp"
-        android:layout_toEndOf="@id/searchForLabel" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/searchForLabel"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/searchButton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:onClick="searchEpisodes"
         android:text="@string/search_button"
-        android:textSize="24sp"
-        android:onClick="searchEpisodes" />
+        android:textSize="24sp" />
 </RelativeLayout>

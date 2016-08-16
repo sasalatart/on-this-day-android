@@ -8,11 +8,14 @@ import android.widget.ArrayAdapter;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 
-import java.io.IOException;
+import okhttp3.OkHttpClient;
 
 public class MainActivity extends AppCompatActivity {
 
-    public final static String SEARCH_MESSAGE = "com.example.salatart.SEARCH_MESSAGE";
+    public final static String DAY_MESSAGE = "com.example.salatart.DAY_MESSAGE";
+    public final static String MONTH_MESSAGE = "com.example.salatart.MONTH_MESSAGE";
+    public final static String TYPE_MESSAGE = "com.example.salatart.TYPE_MESSAGE";
+    public static OkHttpClient okHttpClient = new OkHttpClient();
 
     private NumberPicker dayPicker;
     private NumberPicker monthPicker;
@@ -28,20 +31,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void searchEpisodes(View view) {
-        String day = Integer.toString(dayPicker.getValue());
-        String month = Integer.toString(monthPicker.getValue());
-        String type = searchForSpinner.getSelectedItem().toString();
-
-        String url = "";
-        try {
-            url = Util.getProperty("url", getApplicationContext());
-            url += "/episodes?day=" + day + "&month=" + month + "&type=" + type;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         Intent intent = new Intent(this, EpisodesActivity.class);
-        intent.putExtra(SEARCH_MESSAGE, url);
+        intent.putExtra(DAY_MESSAGE, Integer.toString(dayPicker.getValue()));
+        intent.putExtra(MONTH_MESSAGE, Integer.toString(monthPicker.getValue()));
+        intent.putExtra(TYPE_MESSAGE, searchForSpinner.getSelectedItem().toString());
         startActivity(intent);
     }
 
