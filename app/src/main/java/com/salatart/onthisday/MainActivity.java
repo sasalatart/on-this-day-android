@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void searchEpisodes(View view) {
         Intent intent = new Intent(this, EpisodesActivity.class);
-        intent.putExtra(DAY_MESSAGE, Integer.toString(dayPicker.getValue()));
-        intent.putExtra(MONTH_MESSAGE, Integer.toString(monthPicker.getValue()));
+        intent.putExtra(DAY_MESSAGE, dayPicker.getValue());
+        intent.putExtra(MONTH_MESSAGE, monthPicker.getValue());
         intent.putExtra(TYPE_MESSAGE, searchForSpinner.getSelectedItem().toString());
         startActivity(intent);
     }

@@ -7,6 +7,8 @@
     <string name="button_search">Search</string>
     <string name="placeholder_episodes_type">Type</string>
     <string name="placeholder_episodes_date">Date</string>
+    <string name="placeholder_episode_year">Year</string>
+    <string name="placeholder_episode_description">Description</string>
 
     <string-array name="episodes_array">
         <item>event</item>

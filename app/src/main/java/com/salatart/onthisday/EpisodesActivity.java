@@ -6,9 +6,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.TextView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -23,12 +23,9 @@ import okhttp3.Response;
 public class EpisodesActivity extends AppCompatActivity {
 
     private String query;
-    private String day;
-    private String month;
+    private int day;
+    private int month;
     private String type;
-
-    private TextView typeTV;
-    private TextView dateTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,16 +49,16 @@ public class EpisodesActivity extends AppCompatActivity {
 
     public void extractFromIntent() {
         Intent intent = getIntent();
-        day = intent.getStringExtra(MainActivity.DAY_MESSAGE);
-        month = intent.getStringExtra(MainActivity.MONTH_MESSAGE);
+        day = intent.getIntExtra(MainActivity.DAY_MESSAGE, 1);
+        month = intent.getIntExtra(MainActivity.MONTH_MESSAGE, 1);
         type = intent.getStringExtra(MainActivity.TYPE_MESSAGE);
     }
 
     public void setTextViews() {
-        typeTV = (TextView) findViewById(R.id.searchType);
+        TextView typeTV = (TextView) findViewById(R.id.searchType);
         typeTV.setText(type + "s");
-        dateTV = (TextView) findViewById(R.id.searchDate);
-        dateTV.setText(new DateFormatSymbols().getMonths()[Integer.parseInt(month) - 1] + " " + day);
+        TextView dateTV = (TextView) findViewById(R.id.searchDate);
+        dateTV.setText(new DateFormatSymbols().getMonths()[month - 1] + " " + day);
     }
 
     public void buildQuery() {
@@ -73,8 +70,8 @@ public class EpisodesActivity extends AppCompatActivity {
         }
 
         HttpUrl.Builder urlBuilder = HttpUrl.parse(query).newBuilder();
-        urlBuilder.addQueryParameter("day", day);
-        urlBuilder.addQueryParameter("month", month);
+        urlBuilder.addQueryParameter("day", day + "");
+        urlBuilder.addQueryParameter("month", month + "");
         urlBuilder.addQueryParameter("type", type);
         query = urlBuilder.build().toString();
     }
@@ -86,12 +83,16 @@ public class EpisodesActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
                 try {
-                    JSONArray jsonResponse = new JSONArray(response.body().string());
+                    final Episode[] episodes = Episode.fromJSON(response.body().string(), day, month);
 
-                    for (int i = 0; i < jsonResponse.length(); i++) {
-                        Log.i("INFO", jsonResponse.getJSONObject(i).toString());
-                    }
-
+                    EpisodesActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            EpisodesAdapter episodesAdapter = new EpisodesAdapter(EpisodesActivity.this, episodes);
+                            ListView listView = (ListView) findViewById(R.id.episodeList);
+                            listView.setAdapter(episodesAdapter);
+                        }
+                    });
                 } catch (JSONException e) {
                     Log.e("ERROR", e.getMessage(), e);
                 }
