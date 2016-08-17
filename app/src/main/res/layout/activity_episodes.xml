@@ -6,8 +6,27 @@
     android:padding="@dimen/activity_vertical_margin"
     tools:context="com.salatart.onthisday.EpisodesActivity">
 
+    <TextView
+        android:id="@+id/searchType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/placeholder_episodes_type"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/searchDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/searchType"
+        android:text="@string/placeholder_episodes_date"
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
     <ListView
         android:id="@+id/episodeList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/searchDate" />
 </RelativeLayout>

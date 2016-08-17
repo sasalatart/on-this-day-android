@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/dayPicker"
             android:layout_alignParentStart="true"
-            android:text="@string/day_picker_label"
+            android:text="@string/label_day_picker"
             android:textAlignment="center"
             android:textSize="24sp" />
 
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/monthPicker"
             android:layout_alignParentEnd="true"
-            android:text="@string/month_picker_label"
+            android:text="@string/label_month_picker"
             android:textAlignment="center"
             android:textSize="24sp" />
     </RelativeLayout>
@@ -68,7 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/pickerContainer"
         android:layout_centerHorizontal="true"
-        android:text="@string/search_for"
+        android:text="@string/label_search_for"
         android:textSize="24sp" />
 
     <Spinner
@@ -84,6 +84,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:onClick="searchEpisodes"
-        android:text="@string/search_button"
+        android:text="@string/button_search"
         android:textSize="24sp" />
 </RelativeLayout>

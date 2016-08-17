@@ -6,11 +6,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.text.DateFormatSymbols;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -25,6 +27,9 @@ public class EpisodesActivity extends AppCompatActivity {
     private String month;
     private String type;
 
+    private TextView typeTV;
+    private TextView dateTV;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +39,7 @@ public class EpisodesActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         extractFromIntent();
+        setTextViews();
         buildQuery();
         retrieveEpisodes();
     }
@@ -49,6 +55,13 @@ public class EpisodesActivity extends AppCompatActivity {
         day = intent.getStringExtra(MainActivity.DAY_MESSAGE);
         month = intent.getStringExtra(MainActivity.MONTH_MESSAGE);
         type = intent.getStringExtra(MainActivity.TYPE_MESSAGE);
+    }
+
+    public void setTextViews() {
+        typeTV = (TextView) findViewById(R.id.searchType);
+        typeTV.setText(type + "s");
+        dateTV = (TextView) findViewById(R.id.searchDate);
+        dateTV.setText(new DateFormatSymbols().getMonths()[Integer.parseInt(month) - 1] + " " + day);
     }
 
     public void buildQuery() {

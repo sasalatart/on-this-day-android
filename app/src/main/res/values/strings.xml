@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">OnThisDay</string>
     <string name="main_title">Choose a date</string>
-    <string name="day_picker_label">Day</string>
-    <string name="month_picker_label">Month</string>
-    <string name="search_for">Search for:</string>
-    <string name="search_button">Search</string>
+    <string name="label_day_picker">Day</string>
+    <string name="label_month_picker">Month</string>
+    <string name="label_search_for">Search for:</string>
+    <string name="button_search">Search</string>
+    <string name="placeholder_episodes_type">Type</string>
+    <string name="placeholder_episodes_date">Date</string>
 
     <string-array name="episodes_array">
         <item>event</item>
