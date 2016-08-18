@@ -21,7 +21,7 @@ public class EpisodesAdapter extends ArrayAdapter<Episode> {
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_episode, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_episode, parent, false);
         }
 
         TextView tvYear = (TextView) convertView.findViewById(R.id.tvYear);

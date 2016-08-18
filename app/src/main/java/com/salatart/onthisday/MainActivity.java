@@ -17,9 +17,9 @@ public class MainActivity extends AppCompatActivity {
     public final static String TYPE_MESSAGE = "com.example.salatart.TYPE_MESSAGE";
     public static OkHttpClient okHttpClient = new OkHttpClient();
 
-    private NumberPicker dayPicker;
-    private NumberPicker monthPicker;
-    private Spinner searchForSpinner;
+    private NumberPicker mDayPicker;
+    private NumberPicker mMonthPicker;
+    private Spinner mTypeSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,28 +32,27 @@ public class MainActivity extends AppCompatActivity {
 
     public void searchEpisodes(View view) {
         Intent intent = new Intent(this, EpisodesActivity.class);
-        intent.putExtra(DAY_MESSAGE, dayPicker.getValue());
-        intent.putExtra(MONTH_MESSAGE, monthPicker.getValue());
-        intent.putExtra(TYPE_MESSAGE, searchForSpinner.getSelectedItem().toString());
+        intent.putExtra(DAY_MESSAGE, mDayPicker.getValue());
+        intent.putExtra(MONTH_MESSAGE, mMonthPicker.getValue());
+        intent.putExtra(TYPE_MESSAGE, mTypeSpinner.getSelectedItem().toString());
         startActivity(intent);
     }
 
     private void setPickers() {
-        dayPicker = (NumberPicker) findViewById(R.id.dayPicker);
-        monthPicker = (NumberPicker) findViewById(R.id.monthPicker);
+        mDayPicker = (NumberPicker) findViewById(R.id.dayPicker);
+        mMonthPicker = (NumberPicker) findViewById(R.id.monthPicker);
 
-        dayPicker.setMinValue(1);
-        dayPicker.setMaxValue(31);
+        mDayPicker.setMinValue(1);
+        mDayPicker.setMaxValue(31);
 
-        monthPicker.setMinValue(1);
-        monthPicker.setMaxValue(12);
+        mMonthPicker.setMinValue(1);
+        mMonthPicker.setMaxValue(12);
     }
 
     private void setSearchForSpinner() {
-        searchForSpinner = (Spinner) findViewById(R.id.searchForSpinner);
-        ArrayAdapter<CharSequence> searchForAdapter = ArrayAdapter.createFromResource(this,
-                R.array.episodes_array, android.R.layout.simple_spinner_item);
-        searchForAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        searchForSpinner.setAdapter(searchForAdapter);
+        mTypeSpinner = (Spinner) findViewById(R.id.typeSpinner);
+        ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(this, R.array.episodes_array, android.R.layout.simple_spinner_item);
+        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mTypeSpinner.setAdapter(typeAdapter);
     }
 }

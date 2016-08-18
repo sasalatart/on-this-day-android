@@ -22,10 +22,10 @@ import okhttp3.Response;
 
 public class EpisodesActivity extends AppCompatActivity {
 
-    private String query;
-    private int day;
-    private int month;
-    private String type;
+    private String mQuery;
+    private int mDay;
+    private int mMonth;
+    private String mType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,41 +49,41 @@ public class EpisodesActivity extends AppCompatActivity {
 
     public void extractFromIntent() {
         Intent intent = getIntent();
-        day = intent.getIntExtra(MainActivity.DAY_MESSAGE, 1);
-        month = intent.getIntExtra(MainActivity.MONTH_MESSAGE, 1);
-        type = intent.getStringExtra(MainActivity.TYPE_MESSAGE);
+        mDay = intent.getIntExtra(MainActivity.DAY_MESSAGE, 1);
+        mMonth = intent.getIntExtra(MainActivity.MONTH_MESSAGE, 1);
+        mType = intent.getStringExtra(MainActivity.TYPE_MESSAGE);
     }
 
     public void setTextViews() {
         TextView typeTV = (TextView) findViewById(R.id.searchType);
-        typeTV.setText(type + "s");
+        typeTV.setText(mType + "s");
         TextView dateTV = (TextView) findViewById(R.id.searchDate);
-        dateTV.setText(new DateFormatSymbols().getMonths()[month - 1] + " " + day);
+        dateTV.setText(new DateFormatSymbols().getMonths()[mMonth - 1] + " " + mDay);
     }
 
     public void buildQuery() {
 
         try {
-            query = Util.getProperty("url", getApplicationContext()) + "/episodes";
+            mQuery = Util.getProperty("url", getApplicationContext()) + "/episodes";
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(query).newBuilder();
-        urlBuilder.addQueryParameter("day", day + "");
-        urlBuilder.addQueryParameter("month", month + "");
-        urlBuilder.addQueryParameter("type", type);
-        query = urlBuilder.build().toString();
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(mQuery).newBuilder();
+        urlBuilder.addQueryParameter("day", mDay + "");
+        urlBuilder.addQueryParameter("month", mMonth + "");
+        urlBuilder.addQueryParameter("type", mType);
+        mQuery = urlBuilder.build().toString();
     }
 
     public void retrieveEpisodes() {
-        Request request = new Request.Builder().url(query).build();
+        Request request = new Request.Builder().url(mQuery).build();
 
         MainActivity.okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
                 try {
-                    final Episode[] episodes = Episode.fromJSON(response.body().string(), day, month);
+                    final Episode[] episodes = Episode.fromJSON(response.body().string());
 
                     EpisodesActivity.this.runOnUiThread(new Runnable() {
                         @Override
