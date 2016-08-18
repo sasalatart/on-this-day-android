@@ -63,7 +63,7 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/searchForLabel"
+        android:id="@+id/typeSpinnerLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/pickerContainer"
@@ -75,7 +75,7 @@
         android:id="@+id/typeSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/searchForLabel"
+        android:layout_below="@+id/typeSpinnerLabel"
         android:layout_centerHorizontal="true" />
 
     <Button
