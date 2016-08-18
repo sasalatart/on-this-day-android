@@ -6,7 +6,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -27,6 +29,8 @@ public class EpisodesActivity extends AppCompatActivity {
     private int mMonth;
     private String mType;
 
+    private ProgressBar mProgressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +38,8 @@ public class EpisodesActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         extractFromIntent();
         setTextViews();
@@ -78,19 +84,20 @@ public class EpisodesActivity extends AppCompatActivity {
 
     public void retrieveEpisodes() {
         Request request = new Request.Builder().url(mQuery).build();
+        mProgressBar.setVisibility(View.VISIBLE);
 
         MainActivity.okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
                 try {
                     final Episode[] episodes = Episode.fromJSON(response.body().string());
-
                     EpisodesActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             EpisodesAdapter episodesAdapter = new EpisodesAdapter(EpisodesActivity.this, episodes);
                             ListView listView = (ListView) findViewById(R.id.episodeList);
                             listView.setAdapter(episodesAdapter);
+                            mProgressBar.setVisibility(View.GONE);
                         }
                     });
                 } catch (JSONException e) {
