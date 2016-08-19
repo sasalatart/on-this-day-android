@@ -8,6 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import okhttp3.OkHttpClient;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         setPickers();
+        setCurrentDate();
         setSearchForSpinner();
     }
 
@@ -47,6 +51,17 @@ public class MainActivity extends AppCompatActivity {
 
         mMonthPicker.setMinValue(1);
         mMonthPicker.setMaxValue(12);
+    }
+
+    public void setCurrentDate() {
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+        int currentMonth = calendar.get(Calendar.MONTH) + 1;
+
+        mDayPicker.setValue(currentDay);
+        mMonthPicker.setValue(currentMonth);
     }
 
     private void setSearchForSpinner() {
