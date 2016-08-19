@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import java.text.DateFormatSymbols;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -51,9 +53,33 @@ public class MainActivity extends AppCompatActivity {
 
         mMonthPicker.setMinValue(1);
         mMonthPicker.setMaxValue(12);
+
+        mDayPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                checkDateValidity(newVal, mMonthPicker.getValue(), oldVal, picker);
+            }
+        });
+
+        mMonthPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                checkDateValidity(mDayPicker.getValue(), newVal, oldVal, picker);
+            }
+        });
     }
 
-    public void setCurrentDate() {
+    private void checkDateValidity(int day, int month, int oldVal, NumberPicker picker) {
+        String date = day + "/" + month;
+
+        if (!Util.isDateValid(date)) {
+            picker.setValue(oldVal);
+            String text = new DateFormatSymbols().getMonths()[month - 1] + " " + day + " is not a valid date.";
+            Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void setCurrentDate() {
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
