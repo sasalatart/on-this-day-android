@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/activity_vertical_margin"
-    tools:context="com.salatart.onthisday.EpisodesActivity">
+    tools:context="com.salatart.onthisday.Activities.EpisodesActivity">
 
     <TextView
-        android:id="@+id/searchType"
+        android:id="@+id/label_search_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/placeholder_episodes_type"
@@ -16,26 +17,27 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
-        android:id="@+id/searchDate"
+        android:id="@+id/label_search_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/searchType"
+        android:layout_below="@id/label_search_type"
         android:text="@string/placeholder_episodes_date"
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ListView
-        android:id="@+id/episodeList"
+        android:id="@+id/list_view_episodes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/searchDate"
+        android:layout_below="@id/label_search_date"
         android:layout_marginTop="16dp" />
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleLarge"
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/loading_episodes"
+        style="@style/AVLoadingIndicatorView.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone" />
+        app:indicatorColor="@color/colorPrimary"
+        app:indicatorName="BallScaleMultipleIndicator" />
 </RelativeLayout>

@@ -4,14 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/activity_vertical_margin"
-    tools:context="com.salatart.onthisday.MainActivity">
+    tools:context="com.salatart.onthisday.Activities.MainActivity">
 
     <TextView
-        android:id="@+id/mainTitle"
-        android:layout_width="fill_parent"
+        android:id="@+id/label_main_title"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="24dp"
         android:text="@string/main_title"
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -19,14 +17,15 @@
         android:textStyle="bold" />
 
     <RelativeLayout
-        android:id="@+id/pickerContainer"
+        android:id="@+id/container_pickers"
         android:layout_width="280dp"
-        android:layout_height="240dp"
-        android:layout_below="@id/mainTitle"
-        android:layout_centerHorizontal="true">
+        android:layout_height="280dp"
+        android:layout_below="@id/label_main_title"
+        android:layout_centerInParent="true"
+        android:gravity="center">
 
         <NumberPicker
-            android:id="@+id/dayPicker"
+            android:id="@+id/picker_day"
             android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -34,17 +33,17 @@
             android:orientation="vertical" />
 
         <TextView
-            android:id="@+id/dayPickerLabel"
+            android:id="@+id/label_day"
             android:layout_width="90dp"
             android:layout_height="wrap_content"
-            android:layout_above="@id/dayPicker"
+            android:layout_above="@id/picker_day"
             android:layout_alignParentStart="true"
             android:text="@string/label_day_picker"
             android:textAlignment="center"
             android:textSize="24sp" />
 
         <NumberPicker
-            android:id="@+id/monthPicker"
+            android:id="@+id/picker_month"
             android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -52,10 +51,10 @@
             android:orientation="vertical" />
 
         <TextView
-            android:id="@+id/monthPickerLabel"
+            android:id="@+id/label_month"
             android:layout_width="90dp"
             android:layout_height="wrap_content"
-            android:layout_above="@id/monthPicker"
+            android:layout_above="@id/picker_month"
             android:layout_alignParentEnd="true"
             android:text="@string/label_month_picker"
             android:textAlignment="center"
@@ -63,27 +62,38 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/typeSpinnerLabel"
+        android:id="@+id/label_search_for"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/pickerContainer"
+        android:layout_below="@id/container_pickers"
         android:layout_centerHorizontal="true"
         android:text="@string/label_search_for"
-        android:textSize="24sp" />
-
-    <Spinner
-        android:id="@+id/typeSpinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/typeSpinnerLabel"
-        android:layout_centerHorizontal="true" />
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Button
-        android:id="@+id/searchButton"
-        android:layout_width="fill_parent"
+        android:id="@+id/button_search_events"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:onClick="searchEpisodes"
-        android:text="@string/button_search"
-        android:textSize="24sp" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/label_search_for"
+        android:onClick="searchEvents"
+        android:text="@string/search_events" />
+
+    <Button
+        android:id="@+id/button_search_births"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/label_search_for"
+        android:layout_centerHorizontal="true"
+        android:onClick="searchBirths"
+        android:text="@string/search_births" />
+
+    <Button
+        android:id="@+id/button_search_deaths"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/label_search_for"
+        android:onClick="searchDeaths"
+        android:text="@string/search_deaths" />
 </RelativeLayout>

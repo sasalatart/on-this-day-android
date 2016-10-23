@@ -1,21 +1,27 @@
-package com.salatart.onthisday;
+package com.salatart.onthisday.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.salatart.onthisday.Adapters.EpisodesAdapter;
+import com.salatart.onthisday.Models.Episode;
+import com.salatart.onthisday.R;
+import com.salatart.onthisday.Utils.Util;
 
 import org.json.JSONException;
 
 import java.io.IOException;
 import java.text.DateFormatSymbols;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -24,12 +30,24 @@ import okhttp3.Response;
 
 public class EpisodesActivity extends AppCompatActivity {
 
+    public final static String DAY_MESSAGE = "com.example.salatart.DAY_MESSAGE";
+    public final static String MONTH_MESSAGE = "com.example.salatart.MONTH_MESSAGE";
+    public final static String TYPE_MESSAGE = "com.example.salatart.TYPE_MESSAGE";
+
+    @BindView(R.id.loading_episodes) com.wang.avi.AVLoadingIndicatorView mSpinner;
+
     private String mQuery;
     private int mDay;
     private int mMonth;
     private String mType;
 
-    private ProgressBar mProgressBar;
+    public static Intent getIntent(Context context, int day, int month, String type) {
+        Intent intent = new Intent(context, EpisodesActivity.class);
+        intent.putExtra(DAY_MESSAGE, day);
+        intent.putExtra(MONTH_MESSAGE, month);
+        intent.putExtra(TYPE_MESSAGE, type);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +57,7 @@ public class EpisodesActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+        ButterKnife.bind(this);
 
         extractFromIntent();
         setTextViews();
@@ -55,15 +73,15 @@ public class EpisodesActivity extends AppCompatActivity {
 
     public void extractFromIntent() {
         Intent intent = getIntent();
-        mDay = intent.getIntExtra(MainActivity.DAY_MESSAGE, 1);
-        mMonth = intent.getIntExtra(MainActivity.MONTH_MESSAGE, 1);
-        mType = intent.getStringExtra(MainActivity.TYPE_MESSAGE);
+        mDay = intent.getIntExtra(DAY_MESSAGE, 1);
+        mMonth = intent.getIntExtra(MONTH_MESSAGE, 1);
+        mType = intent.getStringExtra(TYPE_MESSAGE);
     }
 
     public void setTextViews() {
-        TextView typeTV = (TextView) findViewById(R.id.searchType);
+        TextView typeTV = (TextView) findViewById(R.id.label_search_type);
         typeTV.setText(mType + "s");
-        TextView dateTV = (TextView) findViewById(R.id.searchDate);
+        TextView dateTV = (TextView) findViewById(R.id.label_search_date);
         dateTV.setText(new DateFormatSymbols().getMonths()[mMonth - 1] + " " + mDay);
     }
 
@@ -83,9 +101,8 @@ public class EpisodesActivity extends AppCompatActivity {
     }
 
     public void retrieveEpisodes() {
+        mSpinner.show();
         Request request = new Request.Builder().url(mQuery).build();
-        mProgressBar.setVisibility(View.VISIBLE);
-
         MainActivity.okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
@@ -95,19 +112,21 @@ public class EpisodesActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             EpisodesAdapter episodesAdapter = new EpisodesAdapter(EpisodesActivity.this, episodes);
-                            ListView listView = (ListView) findViewById(R.id.episodeList);
+                            ListView listView = (ListView) findViewById(R.id.list_view_episodes);
                             listView.setAdapter(episodesAdapter);
-                            mProgressBar.setVisibility(View.GONE);
+                            mSpinner.hide();
                         }
                     });
                 } catch (JSONException e) {
                     Log.e("ERROR", e.getMessage(), e);
+                    mSpinner.hide();
                 }
             }
 
             @Override
             public void onFailure(Call call, IOException exception) {
                 Log.e("ERROR", "Failed to connect to API");
+                mSpinner.hide();
             }
         });
     }

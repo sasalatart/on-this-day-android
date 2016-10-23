@@ -1,10 +1,8 @@
-package com.salatart.onthisday;
+package com.salatart.onthisday.Models;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.text.DateFormatSymbols;
 
 /**
  * Created by sasalatart on 8/17/16.

@@ -4,15 +4,11 @@
     <string name="label_day_picker">Day</string>
     <string name="label_month_picker">Month</string>
     <string name="label_search_for">Search for:</string>
-    <string name="button_search">Search</string>
     <string name="placeholder_episodes_type">Type</string>
     <string name="placeholder_episodes_date">Date</string>
     <string name="placeholder_episode_year">Year</string>
     <string name="placeholder_episode_description">Description</string>
-
-    <string-array name="episodes_array">
-        <item>event</item>
-        <item>birth</item>
-        <item>death</item>
-    </string-array>
+    <string name="search_events">Events</string>
+    <string name="search_deaths">Deaths</string>
+    <string name="search_births">Births</string>
 </resources>
