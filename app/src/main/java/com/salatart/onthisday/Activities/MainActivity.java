@@ -13,16 +13,10 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.OkHttpClient;
 
 public class MainActivity extends AppCompatActivity {
-
-    public static OkHttpClient okHttpClient = new OkHttpClient();
-
-    @BindView(R.id.picker_day)
-    NumberPicker mDayPicker;
-    @BindView(R.id.picker_month)
-    NumberPicker mMonthPicker;
+    @BindView(R.id.picker_day) NumberPicker mDayPicker;
+    @BindView(R.id.picker_month) NumberPicker mMonthPicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
