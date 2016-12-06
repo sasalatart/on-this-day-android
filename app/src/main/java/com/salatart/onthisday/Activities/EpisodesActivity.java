@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.salatart.onthisday.Adapters.EpisodesAdapter;
@@ -57,11 +56,6 @@ public class EpisodesActivity extends AppCompatActivity {
         setTitle(title);
 
         retrieveEpisodes();
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        startActivity(new Intent(this, MainActivity.class));
-        return true;
     }
 
     public void extractFromIntent() {
