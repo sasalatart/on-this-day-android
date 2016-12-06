@@ -1,6 +1,7 @@
 package com.salatart.onthisday.Adapters;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,11 +28,9 @@ public class EpisodesAdapter extends ArrayAdapter<Episode> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_episode, parent, false);
         }
 
-        TextView tvYear = (TextView) convertView.findViewById(R.id.label_year);
-        TextView tvDescription = (TextView) convertView.findViewById(R.id.label_description);
-
-        tvYear.setText(episode.getYearString());
-        tvDescription.setText(episode.getDescription());
+        TextView tvEpisode = (TextView) convertView.findViewById(R.id.episode_text);
+        String episodeText = "<b>" + episode.getYearString() + ": </b>" + episode.getDescription();
+        tvEpisode.setText(Html.fromHtml(episodeText));
 
         return convertView;
     }
