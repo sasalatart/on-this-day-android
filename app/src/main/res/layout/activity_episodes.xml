@@ -7,30 +7,10 @@
     android:padding="@dimen/activity_vertical_margin"
     tools:context="com.salatart.onthisday.Activities.EpisodesActivity">
 
-    <TextView
-        android:id="@+id/label_search_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/placeholder_episodes_type"
-        android:textAlignment="center"
-        android:textAllCaps="true"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/label_search_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/label_search_type"
-        android:text="@string/placeholder_episodes_date"
-        android:textAlignment="center"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
     <ListView
         android:id="@+id/list_view_episodes"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/label_search_date"
-        android:layout_marginTop="16dp" />
+        android:layout_height="match_parent" />
 
     <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/loading_episodes"

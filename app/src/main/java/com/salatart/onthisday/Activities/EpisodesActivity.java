@@ -7,7 +7,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.salatart.onthisday.Adapters.EpisodesAdapter;
 import com.salatart.onthisday.Listeners.IndexRequestListener;
@@ -28,8 +27,6 @@ public class EpisodesActivity extends AppCompatActivity {
     public final static String MONTH_MESSAGE = "com.example.salatart.MONTH_MESSAGE";
     public final static String TYPE_MESSAGE = "com.example.salatart.TYPE_MESSAGE";
 
-    @BindView(R.id.label_search_type) TextView mLabelType;
-    @BindView(R.id.label_search_date) TextView mLabelDate;
     @BindView(R.id.loading_episodes) com.wang.avi.AVLoadingIndicatorView mSpinner;
 
     private int mDay;
@@ -55,7 +52,10 @@ public class EpisodesActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         extractFromIntent();
-        setTextViews();
+
+        String title = mType + "s: " + new DateFormatSymbols().getMonths()[mMonth - 1] + " " + mDay;
+        setTitle(title);
+
         retrieveEpisodes();
     }
 
@@ -69,11 +69,6 @@ public class EpisodesActivity extends AppCompatActivity {
         mDay = intent.getIntExtra(DAY_MESSAGE, 1);
         mMonth = intent.getIntExtra(MONTH_MESSAGE, 1);
         mType = intent.getStringExtra(TYPE_MESSAGE);
-    }
-
-    public void setTextViews() {
-        mLabelType.setText(mType + "s");
-        mLabelDate.setText(new DateFormatSymbols().getMonths()[mMonth - 1] + " " + mDay);
     }
 
     public void retrieveEpisodes() {
