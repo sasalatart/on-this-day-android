@@ -2,4 +2,11 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="episode_separation_size">8dp</dimen>
+    <dimen name="main_title_size_portrait">48sp</dimen>
+    <dimen name="main_title_size_landscape">32sp</dimen>
+    <dimen name="date_label_size">24sp</dimen>
+    <dimen name="container_pickers_size_portrait">280dp</dimen>
+    <dimen name="container_pickers_height_landscape">140dp</dimen>
+    <dimen name="picker_width">90dp</dimen>
 </resources>
