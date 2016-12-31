@@ -29,7 +29,7 @@ public class EpisodesAdapter extends ArrayAdapter<Episode> {
         }
 
         TextView tvEpisode = (TextView) convertView.findViewById(R.id.episode_text);
-        String episodeText = "<b>" + episode.getYearString() + ": </b>" + episode.getDescription();
+        String episodeText = "<b>" + episode.getYearString() + "</b> - " + episode.getDescription();
         tvEpisode.setText(Html.fromHtml(episodeText));
 
         return convertView;
