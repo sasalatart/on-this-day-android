@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">OnThisDay</string>
+    <string name="app_name">On This Day</string>
     <string name="main_title">Choose a date</string>
     <string name="label_day_picker">Day</string>
     <string name="label_month_picker">Month</string>

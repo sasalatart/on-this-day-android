@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.salatart.onthisday.Adapters.EpisodesAdapter;
 import com.salatart.onthisday.Listeners.IndexRequestListener;
@@ -13,6 +14,7 @@ import com.salatart.onthisday.Models.Episode;
 import com.salatart.onthisday.R;
 import com.salatart.onthisday.Utils.EpisodesUtils;
 import com.salatart.onthisday.Utils.Routes;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.text.DateFormatSymbols;
 
@@ -26,7 +28,7 @@ public class EpisodesActivity extends AppCompatActivity {
     public final static String MONTH_MESSAGE = "com.example.salatart.MONTH_MESSAGE";
     public final static String TYPE_MESSAGE = "com.example.salatart.TYPE_MESSAGE";
 
-    @BindView(R.id.loading_episodes) com.wang.avi.AVLoadingIndicatorView mSpinner;
+    @BindView(R.id.loading_episodes) AVLoadingIndicatorView mSpinner;
 
     private int mDay;
     private int mMonth;
@@ -52,7 +54,7 @@ public class EpisodesActivity extends AppCompatActivity {
 
         extractFromIntent();
 
-        String title = mType + "s: " + new DateFormatSymbols().getMonths()[mMonth - 1] + " " + mDay;
+        String title = mType + ": " + new DateFormatSymbols().getMonths()[mMonth - 1] + " " + mDay;
         setTitle(title);
 
         retrieveEpisodes();
@@ -68,7 +70,7 @@ public class EpisodesActivity extends AppCompatActivity {
     public void retrieveEpisodes() {
         mSpinner.show();
         Request request = Routes.episodes(mDay, mMonth, mType);
-        EpisodesUtils.RetrieveEpisodes(EpisodesActivity.this, request, mSpinner, new IndexRequestListener<Episode>() {
+        EpisodesUtils.RetrieveEpisodes(request, mType, new IndexRequestListener<Episode>() {
             @Override
             public void OnSuccess(final Episode[] episodes) {
                 EpisodesActivity.this.runOnUiThread(new Runnable() {
@@ -77,6 +79,17 @@ public class EpisodesActivity extends AppCompatActivity {
                         EpisodesAdapter episodesAdapter = new EpisodesAdapter(EpisodesActivity.this, episodes);
                         ListView listView = (ListView) findViewById(R.id.list_view_episodes);
                         listView.setAdapter(episodesAdapter);
+                        mSpinner.hide();
+                    }
+                });
+            }
+
+            @Override
+            public void OnFailure(final String message) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(EpisodesActivity.this, message, Toast.LENGTH_LONG).show();
                         mSpinner.hide();
                     }
                 });

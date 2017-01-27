@@ -1,7 +1,6 @@
 package com.salatart.onthisday.Utils;
 
-import android.app.Activity;
-import android.widget.Toast;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +27,7 @@ public class HttpClient {
                     .connectTimeout(300, TimeUnit.SECONDS)
                     .writeTimeout(300, TimeUnit.SECONDS)
                     .readTimeout(300, TimeUnit.SECONDS)
+                    .addNetworkInterceptor(new StethoInterceptor())
                     .build();
         }
 
@@ -41,19 +41,5 @@ public class HttpClient {
         } catch (IOException | JSONException e) {
             return "Error";
         }
-    }
-
-    public static void onUnsuccessfulRequestWithSpinner(final Activity activity, final String message, final com.wang.avi.AVLoadingIndicatorView loading) {
-        if (activity == null) {
-            return;
-        }
-
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
-                loading.hide();
-            }
-        });
     }
 }

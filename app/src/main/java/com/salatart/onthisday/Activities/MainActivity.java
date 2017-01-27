@@ -63,14 +63,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void searchEvents(View view) {
-        startActivity(EpisodesActivity.getIntent(MainActivity.this, mDayPicker.getValue(), mMonthPicker.getValue(), "event"));
+        searchEpisodes("events");
     }
 
     public void searchBirths(View view) {
-        startActivity(EpisodesActivity.getIntent(MainActivity.this, mDayPicker.getValue(), mMonthPicker.getValue(), "birth"));
+        searchEpisodes("births");
     }
 
     public void searchDeaths(View view) {
-        startActivity(EpisodesActivity.getIntent(MainActivity.this, mDayPicker.getValue(), mMonthPicker.getValue(), "death"));
+        searchEpisodes("deaths");
+    }
+
+    public void searchEpisodes(String episodesType) {
+        startActivity(EpisodesActivity.getIntent(MainActivity.this,
+                mDayPicker.getValue(), mMonthPicker.getValue(), episodesType));
     }
 }

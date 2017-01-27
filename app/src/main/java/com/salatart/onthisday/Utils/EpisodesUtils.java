@@ -1,7 +1,5 @@
 package com.salatart.onthisday.Utils;
 
-import android.app.Activity;
-
 import com.salatart.onthisday.Listeners.IndexRequestListener;
 import com.salatart.onthisday.Models.Episode;
 
@@ -19,27 +17,23 @@ import okhttp3.Response;
  */
 
 public class EpisodesUtils {
-    public static void RetrieveEpisodes(final Activity activity, Request request, final com.wang.avi.AVLoadingIndicatorView spinner, final IndexRequestListener<Episode> listener) {
+    public static void RetrieveEpisodes(Request request, final String episodesType, final IndexRequestListener<Episode> listener) {
         HttpClient.getInstance().newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                HttpClient.onUnsuccessfulRequestWithSpinner(activity, "Error", spinner);
+                listener.OnFailure(e.toString());
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if (activity == null) {
-                    return;
-                }
-
                 if (response.isSuccessful()) {
                     try {
-                        listener.OnSuccess(ParserUtils.episodesFromJSONArray(response.body().string()));
+                        listener.OnSuccess(ParserUtils.episodesFromJSONArray(response.body().string(), episodesType));
                     } catch (JSONException e) {
-                        HttpClient.onUnsuccessfulRequestWithSpinner(activity, "Error", spinner);
+                        listener.OnFailure(e.toString());
                     }
                 } else {
-                    HttpClient.onUnsuccessfulRequestWithSpinner(activity, HttpClient.parseErrorMessage(response), spinner);
+                    listener.OnFailure(HttpClient.parseErrorMessage(response));
                 }
 
                 response.body().close();

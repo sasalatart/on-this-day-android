@@ -11,12 +11,14 @@ import org.json.JSONObject;
  */
 
 public class ParserUtils {
-    public static Episode[] episodesFromJSONArray(String response) throws JSONException {
-        JSONArray jsonResponse = new JSONArray(response);
-        Episode[] episodes = new Episode[jsonResponse.length()];
+    public static Episode[] episodesFromJSONArray(String response, String episodesType) throws JSONException {
+        JSONObject jsonObject = new JSONObject(response);
+        JSONArray jsonArray = jsonObject.getJSONArray(episodesType);
 
-        for (int i = 0; i < jsonResponse.length(); i++) {
-            JSONObject episode = jsonResponse.getJSONObject(i);
+        Episode[] episodes = new Episode[jsonArray.length()];
+
+        for (int i = 0; i < episodes.length; i++) {
+            JSONObject episode = jsonArray.getJSONObject(i);
 
             int year = Integer.parseInt(episode.getString("year"));
             boolean bce = Boolean.parseBoolean(episode.getString("bce"));
