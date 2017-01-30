@@ -4,19 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/activity_vertical_margin"
     tools:context="com.salatart.onthisday.Activities.EpisodesActivity">
 
-    <ListView
-        android:id="@+id/list_view_episodes"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_episodes"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/loading_episodes"
         style="@style/AVLoadingIndicatorView.Large"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
         app:indicatorColor="@color/colorPrimary"
         app:indicatorName="BallScaleMultipleIndicator" />

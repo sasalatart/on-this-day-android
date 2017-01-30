@@ -5,7 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ListView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.salatart.onthisday.Adapters.EpisodesAdapter;
@@ -17,6 +18,7 @@ import com.salatart.onthisday.Utils.Routes;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.text.DateFormatSymbols;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,13 +74,11 @@ public class EpisodesActivity extends AppCompatActivity {
         Request request = Routes.episodes(mDay, mMonth, mType);
         EpisodesUtils.RetrieveEpisodes(request, mType, new IndexRequestListener<Episode>() {
             @Override
-            public void OnSuccess(final Episode[] episodes) {
+            public void OnSuccess(final ArrayList<Episode> episodes) {
                 EpisodesActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        EpisodesAdapter episodesAdapter = new EpisodesAdapter(EpisodesActivity.this, episodes);
-                        ListView listView = (ListView) findViewById(R.id.list_view_episodes);
-                        listView.setAdapter(episodesAdapter);
+                        setRecyclerView(episodes);
                         mSpinner.hide();
                     }
                 });
@@ -95,5 +95,15 @@ public class EpisodesActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    public void setRecyclerView(ArrayList<Episode> episodes) {
+        EpisodesAdapter episodesAdapter = new EpisodesAdapter(EpisodesActivity.this, episodes);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view_episodes);
+        recyclerView.setAdapter(episodesAdapter);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(EpisodesActivity.this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
     }
 }

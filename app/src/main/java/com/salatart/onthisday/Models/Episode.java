@@ -15,7 +15,7 @@ public class Episode {
     }
 
     public String getYearString() {
-        return mYear + (mBCE ? " B.C." : "");
+        return mYear + (mBCE ? "BC" : "");
     }
 
     public String getDescription() {
