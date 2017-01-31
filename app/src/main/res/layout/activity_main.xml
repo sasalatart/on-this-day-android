@@ -62,31 +62,11 @@
             android:textSize="@dimen/date_label_size" />
     </RelativeLayout>
 
-    <LinearLayout
+    <Button
+        android:id="@+id/button_search_events"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:gravity="center">
-
-        <Button
-            android:id="@+id/button_search_events"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="searchEvents"
-            android:text="@string/search_events" />
-
-        <Button
-            android:id="@+id/button_search_births"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="searchBirths"
-            android:text="@string/search_births" />
-
-        <Button
-            android:id="@+id/button_search_deaths"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="searchDeaths"
-            android:text="@string/search_deaths" />
-    </LinearLayout>
+        android:onClick="searchEpisodes"
+        android:text="@string/search" />
 </RelativeLayout>

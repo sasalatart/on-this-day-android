@@ -3,45 +3,43 @@ package com.salatart.onthisday.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
-import com.salatart.onthisday.Adapters.EpisodesAdapter;
-import com.salatart.onthisday.Listeners.IndexRequestListener;
-import com.salatart.onthisday.Models.Episode;
+import com.salatart.onthisday.Adapters.EpisodesPagerAdapter;
+import com.salatart.onthisday.Fragments.EpisodesFragment;
+import com.salatart.onthisday.Models.EpisodesQuery;
 import com.salatart.onthisday.R;
-import com.salatart.onthisday.Utils.EpisodesUtils;
-import com.salatart.onthisday.Utils.Routes;
-import com.wang.avi.AVLoadingIndicatorView;
 
 import java.text.DateFormatSymbols;
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.Request;
+
+import static com.salatart.onthisday.Utils.Constants.DAY_KEY;
+import static com.salatart.onthisday.Utils.Constants.MONTH_KEY;
 
 public class EpisodesActivity extends AppCompatActivity {
 
-    public final static String DAY_MESSAGE = "com.example.salatart.DAY_MESSAGE";
-    public final static String MONTH_MESSAGE = "com.example.salatart.MONTH_MESSAGE";
-    public final static String TYPE_MESSAGE = "com.example.salatart.TYPE_MESSAGE";
-
-    @BindView(R.id.loading_episodes) AVLoadingIndicatorView mSpinner;
+    @BindView(R.id.view_pager) ViewPager mViewPager;
+    @BindView(R.id.tab_layout) TabLayout mTabLayout;
 
     private int mDay;
     private int mMonth;
-    private String mType;
 
-    public static Intent getIntent(Context context, int day, int month, String type) {
+    public static Intent getIntent(Context context, int day, int month) {
         Intent intent = new Intent(context, EpisodesActivity.class);
-        intent.putExtra(DAY_MESSAGE, day);
-        intent.putExtra(MONTH_MESSAGE, month);
-        intent.putExtra(TYPE_MESSAGE, type);
+        intent.putExtra(DAY_KEY, day);
+        intent.putExtra(MONTH_KEY, month);
         return intent;
+    }
+
+    public void extractFromIntent() {
+        Intent intent = getIntent();
+        mDay = intent.getIntExtra(DAY_KEY, 1);
+        mMonth = intent.getIntExtra(MONTH_KEY, 1);
     }
 
     @Override
@@ -49,61 +47,38 @@ public class EpisodesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_episodes);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
         ButterKnife.bind(this);
 
         extractFromIntent();
-
-        String title = mType + ": " + new DateFormatSymbols().getMonths()[mMonth - 1] + " " + mDay;
-        setTitle(title);
-
-        retrieveEpisodes();
+        setActionBar();
+        setViewPager();
     }
 
-    public void extractFromIntent() {
-        Intent intent = getIntent();
-        mDay = intent.getIntExtra(DAY_MESSAGE, 1);
-        mMonth = intent.getIntExtra(MONTH_MESSAGE, 1);
-        mType = intent.getStringExtra(TYPE_MESSAGE);
+    public void setActionBar() {
+        final ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar == null) {
+            return;
+        }
+
+        actionBar.setHomeButtonEnabled(true);
+
+        String title = new DateFormatSymbols().getMonths()[mMonth - 1] + " " + mDay;
+        actionBar.setTitle(title);
     }
 
-    public void retrieveEpisodes() {
-        mSpinner.show();
-        Request request = Routes.episodes(mDay, mMonth, mType);
-        EpisodesUtils.RetrieveEpisodes(request, mType, new IndexRequestListener<Episode>() {
-            @Override
-            public void OnSuccess(final ArrayList<Episode> episodes) {
-                EpisodesActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        setRecyclerView(episodes);
-                        mSpinner.hide();
-                    }
-                });
-            }
+    public void setViewPager() {
+        EpisodesFragment eventsFragment = EpisodesFragment.build(new EpisodesQuery("events", mDay, mMonth));
+        EpisodesFragment birthsFragment = EpisodesFragment.build(new EpisodesQuery("births", mDay, mMonth));
+        EpisodesFragment deathsFragment = EpisodesFragment.build(new EpisodesQuery("deaths", mDay, mMonth));
 
-            @Override
-            public void OnFailure(final String message) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(EpisodesActivity.this, message, Toast.LENGTH_LONG).show();
-                        mSpinner.hide();
-                    }
-                });
-            }
-        });
-    }
+        EpisodesPagerAdapter pagerAdapter = new EpisodesPagerAdapter(getSupportFragmentManager());
+        pagerAdapter.addFragment(eventsFragment, "events");
+        pagerAdapter.addFragment(birthsFragment, "births");
+        pagerAdapter.addFragment(deathsFragment, "deaths");
 
-    public void setRecyclerView(ArrayList<Episode> episodes) {
-        EpisodesAdapter episodesAdapter = new EpisodesAdapter(EpisodesActivity.this, episodes);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view_episodes);
-        recyclerView.setAdapter(episodesAdapter);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(EpisodesActivity.this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
+        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setAdapter(pagerAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
     }
 }

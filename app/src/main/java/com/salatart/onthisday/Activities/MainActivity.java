@@ -62,20 +62,9 @@ public class MainActivity extends AppCompatActivity {
         mMonthPicker.setValue(currentMonth);
     }
 
-    public void searchEvents(View view) {
-        searchEpisodes("events");
-    }
-
-    public void searchBirths(View view) {
-        searchEpisodes("births");
-    }
-
-    public void searchDeaths(View view) {
-        searchEpisodes("deaths");
-    }
-
-    public void searchEpisodes(String episodesType) {
-        startActivity(EpisodesActivity.getIntent(MainActivity.this,
-                mDayPicker.getValue(), mMonthPicker.getValue(), episodesType));
+    public void searchEpisodes(View view) {
+        int day = mDayPicker.getValue();
+        int month = mMonthPicker.getValue();
+        startActivity(EpisodesActivity.getIntent(MainActivity.this, day, month));
     }
 }

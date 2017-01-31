@@ -66,34 +66,11 @@
                 android:textSize="@dimen/date_label_size" />
         </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/container_buttons"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/button_search_events"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="searchEvents"
-                android:text="@string/search_events" />
-
-            <Button
-                android:id="@+id/button_search_births"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="searchBirths"
-                android:text="@string/search_births" />
-
-            <Button
-                android:id="@+id/button_search_deaths"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="searchDeaths"
-                android:text="@string/search_deaths" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/button_search_events"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="searchEpisodes"
+            android:text="@string/search" />
     </LinearLayout>
 </RelativeLayout>

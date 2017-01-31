@@ -7,7 +7,5 @@
     <string name="placeholder_episodes_date">Date</string>
     <string name="placeholder_episode_year">Year</string>
     <string name="placeholder_episode_description">Description</string>
-    <string name="search_events">See Events</string>
-    <string name="search_deaths">See Deaths</string>
-    <string name="search_births">See Births</string>
+    <string name="search">Search</string>
 </resources>

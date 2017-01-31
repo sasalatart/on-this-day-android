@@ -1,6 +1,7 @@
 package com.salatart.onthisday.Utils;
 
-import okhttp3.HttpUrl;
+import com.salatart.onthisday.Models.EpisodesQuery;
+
 import okhttp3.Request;
 
 /**
@@ -10,14 +11,7 @@ import okhttp3.Request;
 public class Routes {
     private static String DOMAIN = "https://onthisday.salatart.com";
 
-    public static Request episodes(int day, int month, String type) {
-        String query = DOMAIN + "/" + type;
-
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(query).newBuilder();
-        urlBuilder.addQueryParameter("day", day + "");
-        urlBuilder.addQueryParameter("month", month + "");
-        query = urlBuilder.build().toString();
-
-        return new Request.Builder().url(query).build();
+    public static Request episodes(EpisodesQuery query) {
+        return new Request.Builder().url(query.build(DOMAIN)).build();
     }
 }
