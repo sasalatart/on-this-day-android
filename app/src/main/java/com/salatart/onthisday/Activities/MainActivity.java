@@ -1,5 +1,8 @@
 package com.salatart.onthisday.Activities;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -7,6 +10,7 @@ import android.widget.NumberPicker;
 
 import com.salatart.onthisday.R;
 import com.salatart.onthisday.Utils.DateUtils;
+import com.salatart.onthisday.Utils.TransitionUtils;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -24,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
+
+        TransitionUtils.setExplodeTransition(this);
 
         setPickers();
         setCurrentDate();
@@ -65,6 +71,13 @@ public class MainActivity extends AppCompatActivity {
     public void searchEpisodes(View view) {
         int day = mDayPicker.getValue();
         int month = mMonthPicker.getValue();
-        startActivity(EpisodesActivity.getIntent(MainActivity.this, day, month));
+
+        Intent intent = EpisodesActivity.getIntent(MainActivity.this, day, month);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
+            startActivity(intent, options.toBundle());
+        } else {
+            startActivity(intent);
+        }
     }
 }

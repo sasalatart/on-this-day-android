@@ -2,6 +2,7 @@ package com.salatart.onthisday.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -12,6 +13,7 @@ import com.salatart.onthisday.Adapters.EpisodesPagerAdapter;
 import com.salatart.onthisday.Fragments.EpisodesFragment;
 import com.salatart.onthisday.Models.EpisodesQuery;
 import com.salatart.onthisday.R;
+import com.salatart.onthisday.Utils.TransitionUtils;
 
 import java.text.DateFormatSymbols;
 
@@ -49,9 +51,21 @@ public class EpisodesActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        TransitionUtils.setExplodeTransition(this);
+
         extractFromIntent();
         setActionBar();
         setViewPager();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            finishAfterTransition();
+            return true;
+        }
+
+        return super.onSupportNavigateUp();
     }
 
     public void setActionBar() {
