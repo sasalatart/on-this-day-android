@@ -62,7 +62,7 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
                     .fontSize(48)
                     .withBorder(8)
                     .endConfig()
-                    .buildRect(year, ColorGenerator.MATERIAL.getColor(year));
+                    .buildRoundRect(year, ColorGenerator.MATERIAL.getColor(year), 10);
 
             mYearView.setImageDrawable(drawable);
             mDescriptionView.setText(episode.getDescription());
