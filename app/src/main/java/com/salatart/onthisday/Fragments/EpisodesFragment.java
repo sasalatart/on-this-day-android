@@ -34,18 +34,16 @@ public class EpisodesFragment extends Fragment {
     @BindView(R.id.loading_episodes) AVLoadingIndicatorView mSpinner;
 
     private EpisodesQuery mEpisodesQuery;
-    private ArrayList<Episode> mEpisodes;
     private EpisodesAdapter mEpisodesAdapter;
 
     public EpisodesFragment() {
-        mEpisodes = new ArrayList<>();
     }
 
     public static EpisodesFragment build(EpisodesQuery episodesQuery) {
         EpisodesFragment fragment = new EpisodesFragment();
 
         Bundle args = new Bundle();
-        args.putParcelable(EPISODES_QUERY_KEY, episodesQuery);
+        args.putString(EPISODES_QUERY_KEY, episodesQuery.getId());
         fragment.setArguments(args);
 
         return fragment;
@@ -70,17 +68,25 @@ public class EpisodesFragment extends Fragment {
 
     public void retrieveArguments() {
         Bundle arguments = getArguments();
-        mEpisodesQuery = arguments.getParcelable(EPISODES_QUERY_KEY);
+        mEpisodesQuery = EpisodesQuery.find(arguments.getString(EPISODES_QUERY_KEY));
     }
 
     public void setRecyclerView() {
-        mEpisodesAdapter = new EpisodesAdapter(getActivity(), mEpisodes);
+        mEpisodesAdapter = new EpisodesAdapter(getActivity(), mEpisodesQuery.getEpisodes());
         RecyclerView recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view_episodes);
         recyclerView.setAdapter(mEpisodesAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     public void retrieveEpisodes() {
+        if (mEpisodesQuery.getEpisodes().size() == 0) {
+            getEpisodes();
+        } else {
+            mSpinner.hide();
+        }
+    }
+
+    private void getEpisodes() {
         mSpinner.show();
         Request request = Routes.episodes(mEpisodesQuery);
         EpisodesUtils.RetrieveEpisodes(request, mEpisodesQuery.getEpisodesType(), new IndexRequestListener<Episode>() {
@@ -89,7 +95,7 @@ public class EpisodesFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mEpisodes.addAll(episodes);
+                        mEpisodesQuery.setEpisodes(episodes);
                         mEpisodesAdapter.notifyDataSetChanged();
                         mSpinner.hide();
                     }

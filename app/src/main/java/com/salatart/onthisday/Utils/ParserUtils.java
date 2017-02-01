@@ -22,11 +22,12 @@ public class ParserUtils {
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject episode = jsonArray.getJSONObject(i);
 
+            int id = Integer.parseInt(episode.getString("id"));
             int year = Integer.parseInt(episode.getString("year"));
             boolean bce = Boolean.parseBoolean(episode.getString("bce"));
             String text = episode.getString("text");
 
-            episodes.add(new Episode(year, bce, text));
+            episodes.add(new Episode(id, year, bce, text));
         }
 
         return episodes;

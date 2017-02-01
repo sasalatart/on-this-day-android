@@ -13,18 +13,18 @@ import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.salatart.onthisday.Models.Episode;
 import com.salatart.onthisday.R;
 
-import java.util.ArrayList;
+import io.realm.RealmList;
 
 /**
  * Created by sasalatart on 8/17/16.
  */
 public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHolder> {
     private LayoutInflater mInflater;
-    private ArrayList<Episode> mEpisdoes;
+    private RealmList<Episode> mEpisodes;
 
-    public EpisodesAdapter(Context context, ArrayList<Episode> episodes) {
+    public EpisodesAdapter(Context context, RealmList<Episode> episodes) {
         mInflater = LayoutInflater.from(context);
-        mEpisdoes = episodes;
+        mEpisodes = episodes;
     }
 
     @Override
@@ -35,13 +35,13 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Episode episode = mEpisdoes.get(position);
+        Episode episode = mEpisodes.get(position);
         holder.setData(episode);
     }
 
     @Override
     public int getItemCount() {
-        return mEpisdoes.size();
+        return mEpisodes.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

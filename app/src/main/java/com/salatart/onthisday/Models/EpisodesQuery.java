@@ -1,41 +1,60 @@
 package com.salatart.onthisday.Models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import java.util.ArrayList;
 
+import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 import okhttp3.HttpUrl;
 
 /**
  * Created by sasalatart on 1/30/17.
  */
 
-public class EpisodesQuery implements Parcelable {
-    public static final Creator<EpisodesQuery> CREATOR = new Creator<EpisodesQuery>() {
-        @Override
-        public EpisodesQuery createFromParcel(Parcel in) {
-            return new EpisodesQuery(in);
-        }
-
-        @Override
-        public EpisodesQuery[] newArray(int size) {
-            return new EpisodesQuery[size];
-        }
-    };
-
-    private String mEpisodesType;
+public class EpisodesQuery extends RealmObject {
+    @PrimaryKey private String mId;
     private int mDay;
     private int mMonth;
+    private String mEpisodesType;
+    private RealmList<Episode> mEpisodes;
 
-    public EpisodesQuery(String episodesType, int day, int month) {
+    public EpisodesQuery() {
+    }
+
+    private EpisodesQuery(String episodesType, int day, int month) {
+        this.mId = episodesType + day + month;
         this.mEpisodesType = episodesType;
         this.mDay = day;
         this.mMonth = month;
+        this.mEpisodes = new RealmList<>();
     }
 
-    private EpisodesQuery(Parcel in) {
-        mEpisodesType = in.readString();
-        mDay = in.readInt();
-        mMonth = in.readInt();
+    public static EpisodesQuery find(String id) {
+        Realm realm = Realm.getDefaultInstance();
+
+        return realm.where(EpisodesQuery.class)
+                .equalTo("mId", id)
+                .findFirst();
+    }
+
+    public static EpisodesQuery findOrCreateBy(int day, int month, String episodesType) {
+        EpisodesQuery episodesQuery = find(episodesType + day + month);
+
+        if (episodesQuery != null) {
+            return episodesQuery;
+        } else {
+            return create(episodesType, day, month);
+        }
+    }
+
+    private static EpisodesQuery create(String episodesType, int day, int month) {
+        EpisodesQuery episodesQuery = new EpisodesQuery(episodesType, day, month);
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.insertOrUpdate(episodesQuery);
+        realm.commitTransaction();
+        return episodesQuery;
     }
 
     public String build(String domain) {
@@ -47,19 +66,23 @@ public class EpisodesQuery implements Parcelable {
         return urlBuilder.build().toString();
     }
 
+    public String getId() {
+        return mId;
+    }
+
     public String getEpisodesType() {
         return mEpisodesType;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public RealmList<Episode> getEpisodes() {
+        return mEpisodes;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mEpisodesType);
-        dest.writeInt(mDay);
-        dest.writeInt(mMonth);
+    public void setEpisodes(ArrayList<Episode> episodes) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        mEpisodes.clear();
+        mEpisodes.addAll(episodes);
+        realm.commitTransaction();
     }
 }

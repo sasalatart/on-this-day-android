@@ -82,9 +82,9 @@ public class EpisodesActivity extends AppCompatActivity {
     }
 
     public void setViewPager() {
-        EpisodesFragment eventsFragment = EpisodesFragment.build(new EpisodesQuery("events", mDay, mMonth));
-        EpisodesFragment birthsFragment = EpisodesFragment.build(new EpisodesQuery("births", mDay, mMonth));
-        EpisodesFragment deathsFragment = EpisodesFragment.build(new EpisodesQuery("deaths", mDay, mMonth));
+        EpisodesFragment eventsFragment = EpisodesFragment.build(EpisodesQuery.findOrCreateBy(mDay, mMonth, "events"));
+        EpisodesFragment birthsFragment = EpisodesFragment.build(EpisodesQuery.findOrCreateBy(mDay, mMonth, "births"));
+        EpisodesFragment deathsFragment = EpisodesFragment.build(EpisodesQuery.findOrCreateBy(mDay, mMonth, "deaths"));
 
         EpisodesPagerAdapter pagerAdapter = new EpisodesPagerAdapter(getSupportFragmentManager());
         pagerAdapter.addFragment(eventsFragment, "events");
