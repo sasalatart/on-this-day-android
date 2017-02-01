@@ -3,22 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    app:cardCornerRadius="5dp">
+    android:layout_margin="@dimen/card_episode_margin"
+    app:cardCornerRadius="@dimen/card_episode_radius">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="64dp"
+        android:minHeight="@dimen/episode_min_height"
         android:orientation="horizontal"
-        android:padding="2dp">
+        android:padding="@dimen/episode_padding">
 
         <ImageView
             android:id="@+id/image_view_year"
-            android:layout_width="64dp"
+            android:layout_width="@dimen/episode_year_width"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_margin="5dp" />
+            android:layout_margin="@dimen/episode_year_margin" />
 
         <TextView
             android:id="@+id/text_view_description"

@@ -5,12 +5,13 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.NumberPicker;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.salatart.onthisday.R;
 import com.salatart.onthisday.Utils.DateUtils;
 import com.salatart.onthisday.Utils.TransitionUtils;
+import com.shawnlin.numberpicker.NumberPicker;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -31,17 +32,31 @@ public class MainActivity extends AppCompatActivity {
 
         TransitionUtils.setExplodeTransition(this);
 
+        setTitle(getResources().getString(R.string.date_selection));
         setPickers();
         setCurrentDate();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main_activity, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.menu_search:
+                searchEpisodes();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private void setPickers() {
-        mDayPicker.setMinValue(1);
-        mDayPicker.setMaxValue(31);
-
-        mMonthPicker.setMinValue(1);
-        mMonthPicker.setMaxValue(12);
-
         mDayPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
@@ -68,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         mMonthPicker.setValue(currentMonth);
     }
 
-    public void searchEpisodes(View view) {
+    public void searchEpisodes() {
         int day = mDayPicker.getValue();
         int month = mMonthPicker.getValue();
 

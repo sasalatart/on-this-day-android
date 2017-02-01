@@ -1,72 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/activity_vertical_margin"
     tools:context="com.salatart.onthisday.Activities.MainActivity">
 
-    <TextView
-        android:id="@+id/label_main_title"
+    <ImageView
+        android:id="@+id/image_view_background"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:text="@string/main_title"
-        android:textAlignment="center"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="@dimen/main_title_size_portrait"
-        android:textStyle="bold" />
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background" />
 
     <RelativeLayout
         android:id="@+id/container_pickers"
-        android:layout_width="@dimen/container_pickers_size_portrait"
-        android:layout_height="@dimen/container_pickers_size_portrait"
-        android:layout_below="@id/label_main_title"
-        android:layout_centerInParent="true"
+        android:layout_width="@dimen/container_pickers_size"
+        android:layout_height="@dimen/container_pickers_size"
+        android:layout_gravity="center"
         android:gravity="center">
 
-        <NumberPicker
+        <com.shawnlin.numberpicker.NumberPicker
             android:id="@+id/picker_day"
-            android:layout_width="@dimen/picker_width"
-            android:layout_height="wrap_content"
+            style="@style/NumberPickers"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:orientation="vertical" />
+            app:np_dividerColor="@color/white"
+            app:np_max="31"
+            app:np_min="1"
+            app:np_textColor="@color/white"
+            app:np_textSize="@dimen/date_picker_text_size" />
 
         <TextView
             android:id="@+id/label_day"
-            android:layout_width="@dimen/picker_width"
-            android:layout_height="wrap_content"
+            style="@style/DateLabel"
             android:layout_above="@id/picker_day"
             android:layout_alignParentStart="true"
-            android:text="@string/label_day_picker"
-            android:textAlignment="center"
-            android:textSize="@dimen/date_label_size" />
+            android:text="@string/label_day_picker" />
 
-        <NumberPicker
+        <com.shawnlin.numberpicker.NumberPicker
             android:id="@+id/picker_month"
-            android:layout_width="@dimen/picker_width"
-            android:layout_height="wrap_content"
+            style="@style/NumberPickers"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:orientation="vertical" />
+            app:np_dividerColor="@color/white"
+            app:np_max="12"
+            app:np_min="1"
+            app:np_textColor="@color/white"
+            app:np_textSize="@dimen/date_picker_text_size" />
 
         <TextView
             android:id="@+id/label_month"
-            android:layout_width="@dimen/picker_width"
-            android:layout_height="wrap_content"
+            style="@style/DateLabel"
             android:layout_above="@id/picker_month"
             android:layout_alignParentEnd="true"
-            android:text="@string/label_month_picker"
-            android:textAlignment="center"
-            android:textSize="@dimen/date_label_size" />
+            android:text="@string/label_month_picker" />
     </RelativeLayout>
-
-    <Button
-        android:id="@+id/button_search_events"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:onClick="searchEpisodes"
-        android:text="@string/search" />
-</RelativeLayout>
+</FrameLayout>

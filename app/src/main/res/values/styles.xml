@@ -1,15 +1,21 @@
 <resources>
-
-    <style name="BaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="BaseTheme">
-        <!-- Customize your theme here. -->
-
+    <style name="NumberPickers">
+        <item name="android:layout_width">@dimen/picker_width</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="DateLabel">
+        <item name="android:layout_width">@dimen/picker_width</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_view_date_size</item>
+    </style>
 </resources>

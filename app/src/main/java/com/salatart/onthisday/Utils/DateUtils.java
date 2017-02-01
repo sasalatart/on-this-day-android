@@ -1,8 +1,9 @@
 package com.salatart.onthisday.Utils;
 
 import android.app.Activity;
-import android.widget.NumberPicker;
 import android.widget.Toast;
+
+import com.shawnlin.numberpicker.NumberPicker;
 
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
