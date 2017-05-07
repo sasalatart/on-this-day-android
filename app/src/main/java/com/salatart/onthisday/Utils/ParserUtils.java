@@ -13,9 +13,9 @@ import java.util.ArrayList;
  */
 
 public class ParserUtils {
-    public static ArrayList<Episode> episodesFromJSONArray(String response, String episodesType) throws JSONException {
+    public static ArrayList<Episode> episodesFromJSONArray(String response) throws JSONException {
         JSONObject jsonObject = new JSONObject(response);
-        JSONArray jsonArray = jsonObject.getJSONArray(episodesType);
+        JSONArray jsonArray = jsonObject.getJSONObject("day_month").getJSONArray("episodes");
 
         ArrayList<Episode> episodes = new ArrayList<>();
 

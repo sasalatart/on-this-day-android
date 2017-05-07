@@ -70,10 +70,6 @@ public class EpisodesQuery extends RealmObject {
         return mId;
     }
 
-    public String getEpisodesType() {
-        return mEpisodesType;
-    }
-
     public RealmList<Episode> getEpisodes() {
         return mEpisodes;
     }

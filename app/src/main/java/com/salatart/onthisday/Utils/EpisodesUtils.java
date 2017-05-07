@@ -17,7 +17,7 @@ import okhttp3.Response;
  */
 
 public class EpisodesUtils {
-    public static void RetrieveEpisodes(Request request, final String episodesType, final IndexRequestListener<Episode> listener) {
+    public static void RetrieveEpisodes(Request request, final IndexRequestListener<Episode> listener) {
         HttpClient.getInstance().newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -28,7 +28,7 @@ public class EpisodesUtils {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     try {
-                        listener.OnSuccess(ParserUtils.episodesFromJSONArray(response.body().string(), episodesType));
+                        listener.OnSuccess(ParserUtils.episodesFromJSONArray(response.body().string()));
                     } catch (JSONException e) {
                         listener.OnFailure(e.toString());
                     }

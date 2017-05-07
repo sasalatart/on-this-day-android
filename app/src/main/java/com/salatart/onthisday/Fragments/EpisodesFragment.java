@@ -89,7 +89,7 @@ public class EpisodesFragment extends Fragment {
     private void getEpisodes() {
         mSpinner.show();
         Request request = Routes.episodes(mEpisodesQuery);
-        EpisodesUtils.RetrieveEpisodes(request, mEpisodesQuery.getEpisodesType(), new IndexRequestListener<Episode>() {
+        EpisodesUtils.RetrieveEpisodes(request, new IndexRequestListener<Episode>() {
             @Override
             public void OnSuccess(final ArrayList<Episode> episodes) {
                 getActivity().runOnUiThread(new Runnable() {
